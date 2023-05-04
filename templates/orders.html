@@ -8,17 +8,18 @@
 <body>
     <p><a href="/index.html">Retour</a></p>
     <p></p>
-    <p>Ingrédients disponibles :</p>
+    <p>Liste des commandes passées :</p>
     <parts>
     </parts>
 
-    <button id="leBouton">commander</button>
+    <p></p>
+    <button id="leBouton">Supprimmer les commandes sélectionnées</button>
 </body>
 <script type="module">
 "use strict";
 
-let data = await fetch("/order");
-let parts = await data.json();
+let data = await fetch("/orders");
+let orders = await data.json();
 
 
 function onLoad() {
@@ -26,26 +27,25 @@ function onLoad() {
 
 
     const partsList = document.createElement("div");
-    for (const part of parts.list) {
+    for (const [id, time, ingres] of orders.list) {
         let partOfList = document.createElement("div");
-        partOfList.innerHTML = `<input type=\"checkbox\" id=\"${part}\" name=\"${part}\"><label for=\"${part}\">${part}</label>`;
+        partOfList.innerHTML = `<input type=\"checkbox\" id=\"${id}\" name=\"${id}\"><label for=\"${id}\">n°${id} à ${time} : ${ingres}</label>`;
         partsList.appendChild(partOfList);
     }
     partsHolder.appendChild(partsList);
 }
 
-function passerCommande() {
-    let ingredients = [];
-    for (const part of parts.list) {
-        if (document.getElementById(part).checked) {
-            ingredients.push(part);
+function supprimmerCommandes() {
+    let suppressions = [];
+    for (const [id, a, b] of orders.list) {
+        if (document.getElementById(id).checked) {
+            suppressions.push(id);
         }
     }
 
-    const send = JSON.stringify(ingredients);
-    window.name = send;
+    const send = JSON.stringify(suppressions);
 
-    fetch("/order.html", {
+    fetch("/orders", {
         method: "POST",
         headers: {
             'Accept': 'application/json',
@@ -53,11 +53,11 @@ function passerCommande() {
         },
         body: send
     })
-        .then(_ => window.location.href = "/orderSummary.html");
+        .then(_ => window.location.replace("/orders.html"));
 }
 
 const bouton = document.getElementById("leBouton");
-bouton.addEventListener("click", passerCommande);
+bouton.addEventListener("click", supprimmerCommandes);
 
 onLoad();
 </script>
