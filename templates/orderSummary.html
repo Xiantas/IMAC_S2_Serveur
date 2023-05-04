@@ -12,6 +12,7 @@
     <p>Ingrédients commandés :</p>
     <parts>
     </parts>
+    <button id="leBouton">Annuler la commande</button>
 </body>
 <script type="module">
 "use strict";
@@ -31,27 +32,12 @@ function onLoad() {
     partsHolder.appendChild(partsList);
 }
 
-function passerCommande() {
-    let ingredients = [];
-    for (const part of parts.list) {
-        if (document.getElementById(part).checked) {
-            ingredients.push(part);
-        }
-    }
-
-    const send = JSON.stringify(ingredients);
-    window.name = send;
-
-    fetch("/order.html", {
-        method: "POST",
-        headers: {
-            'Accept': 'application/json',
-            "Content-Type": "application/json"
-        },
-        body: send
-    })
-        .then(_ => window.location.href = "/orderSummary.html");
+function annulerCommande() {
+    bouton.innerHTML = "Trop tard, la commande est déjà passée";
 }
+
+const bouton = document.getElementById("leBouton");
+bouton.addEventListener("click", annulerCommande);
 
 onLoad();
 </script>
