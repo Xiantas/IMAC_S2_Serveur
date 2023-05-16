@@ -1,16 +1,28 @@
 CREATE TABLE IF NOT EXISTS orders (
-    nb_commande INTEGER PRIMARY KEY AUTOINCREMENT,
-    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    pain BOOL NOT NULL,
-    salade BOOL NOT NULL,
-    viande BOOL NOT NULL,
-    tomates BOOL NOT NULL
+    id_order INTEGER PRIMARY KEY AUTOINCREMENT,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS stocks (
-    nom_ingredient TEXT PRIMARY KEY ,
+    id_ingredient INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom_ingredient TEXT,
     quantite INTEGER NOT NULL,
     prix FLOAT NOT NULL 
 );
 
-INSERT INTO stocks VALUES ("viande", 10, 12.89);
+CREATE TABLE IF NOT EXISTS orderparts (
+    id_order INTEGER NOT NULL ,
+    id_ingredient INTEGER NOT NULL ,
+    PRIMARY KEY(id_order , id_ingredient),
+    FOREIGN KEY(id_order) REFERENCES orders (id_order),
+    FOREIGN KEY(id_ingredient) REFERENCES stocks (id_ingredient)
+
+);
+
+INSERT INTO stocks 
+VALUES 
+(1,"viande", 10, 12.89),
+(2,"pain", 10, 12.89),
+(3,"salade", 10, 12.89),
+(4,"tomate", 10 ,13.5),
+(5,"tamère" , 1 , 0.5);
