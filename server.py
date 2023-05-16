@@ -10,10 +10,16 @@ import sqlite3
 data_path = "database.db"
 database_structure = "schema.sql"
 
-connection = sqlite3.connect(data_path)
+connection = None
 
-with open(database_structure) as f:
-    connection.executescript(f.read())
+if not os.path.exists(data_path):
+    print("Creating database")
+    connection = sqlite3.connect(data_path)
+
+    with open(database_structure) as f:
+        connection.executescript(f.read())
+else:
+    connection = sqlite3.connect(data_path)
 
 def getIngredients():
     cursor = connection.cursor()

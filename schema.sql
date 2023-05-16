@@ -8,8 +8,9 @@ CREATE TABLE IF NOT EXISTS orders (
 );
 
 CREATE TABLE IF NOT EXISTS stocks (
-    nom_ingredient INTEGER PRIMARY KEY ,
+    nom_ingredient TEXT PRIMARY KEY ,
     quantite INTEGER NOT NULL,
     prix FLOAT NOT NULL 
 );
 
+INSERT INTO stocks VALUES ("viande", 10, 12.89);
