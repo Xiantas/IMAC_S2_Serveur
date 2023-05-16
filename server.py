@@ -17,10 +17,9 @@ with open(database_structure) as f:
 
 def getIngredients():
     cursor = connection.cursor()
-    res = cursor.execute("SELECT sql FROM sqlite_master WHERE tbl_name = 'orders' AND type = 'table';")
-    res = res.fetchall()[0][0].split()
-    indice = [index-1 for (index, word) in enumerate(res) if word == "BOOL"]
-    noms = list(map(lambda i : res[i], indice))
+    res = cursor.execute("SELECT nom_ingredient FROM stocks;")
+    res = res.fetchall()
+    noms = list(map(lambda t : t[0], res))
     print(noms)
     return noms
 ingredients = getIngredients()
