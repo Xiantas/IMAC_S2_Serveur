@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS orders (
 
 CREATE TABLE IF NOT EXISTS stocks (
     nom_ingredient INTEGER PRIMARY KEY ,
-    quantite INTEGE NOT NULL,
+    quantite INTEGER NOT NULL,
     prix FLOAT NOT NULL 
 );
 
