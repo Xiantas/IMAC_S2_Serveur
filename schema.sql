@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS orders (
     id_order INTEGER PRIMARY KEY AUTOINCREMENT,
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    FOREIGN KEY(id_client) REFERENCES clients (id_clients),
 );
 
 CREATE TABLE IF NOT EXISTS stocks (
@@ -9,6 +10,14 @@ CREATE TABLE IF NOT EXISTS stocks (
     quantite INTEGER NOT NULL,
     prix FLOAT NOT NULL 
 );
+
+CREATE TABLE IF NOT EXISTS clients (
+    id_client INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom_client TEXT,
+    adresse_mail TEXT,
+    mdp TEXT,
+    adresse TEXT
+)
 
 CREATE TABLE IF NOT EXISTS orderparts (
     id_order INTEGER NOT NULL ,
@@ -26,3 +35,4 @@ VALUES
 (3,"salade", 10, 12.89),
 (4,"tomate", 10 ,13.5),
 (5,"tamère" , 1 , 0.5);
+
