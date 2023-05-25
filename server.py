@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import os
+import database_interface
 
 from flask import Flask,request,render_template,jsonify,abort
 from flask_cors import CORS
@@ -10,28 +10,9 @@ import sqlite3
 data_path = "database.db"
 database_structure = "schema.sql"
 
-connection = None
+database = database_interface.Database(data_path, database_structure, "")
 
-if not os.path.exists(data_path):
-    print("Creating database")
-    connection = sqlite3.connect(data_path)
-
-    with open(database_structure) as f:
-        connection.executescript(f.read())
-else:
-    connection = sqlite3.connect(data_path)
-
-def getIngredients():
-    cursor = connection.cursor()
-    res = cursor.execute("SELECT nom_ingredient FROM stocks;")
-    res = res.fetchall()
-    noms = list(map(lambda t : t[0], res))
-    print(noms)
-    return noms
-ingredients = getIngredients()
-
-connection.commit()
-connection.close()
+ingredients = database.get_ingredients()
 
 app = Flask(__name__)
 CORS(app)
