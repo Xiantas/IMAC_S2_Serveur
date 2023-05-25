@@ -23,12 +23,18 @@ class Database:
     def __load_data(self, connection, data_folder):
         pass #TODO parser
     
-    def update_stocks(self,liste_ingredient_commande):
+    def update_stocks(self,tab_ingredient_commande):
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
-        cursor.execute("UPDATE stocks SET quantite=quantite-1 WHERE nom_ingredient=part;")
+        for (const part of tab_ingredient_commande) 
+        {
+            cursor.execute("UPDATE stocks SET quantite=quantite-1 WHERE nom_ingredient=part;")
+        }
+
+        connection.commit()
         connection.close()
         return 
+   
 
     def get_ingredients(self):
         connection = sqlite3.connect(self.__path)
