@@ -38,10 +38,11 @@ function passerCommande() {
     let ingredients = [];
     for (const part of parts.list) {
         if (document.getElementById(part).checked) {
-            UPDATE stocks SET quantite=quantite-1 WHERE nom_ingredient=part;
+            
             ingredients.push(part);
         }
     }
+    update_stocks(ingredients);
 
     const send = JSON.stringify(ingredients);
     window.name = send;
