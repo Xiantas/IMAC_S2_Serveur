@@ -12,8 +12,6 @@ database_structure = "schema.sql"
 
 database = database_interface.Database(data_path, database_structure, "")
 
-ingredients = database.get_ingredients()
-
 app = Flask(__name__)
 CORS(app)
 
@@ -25,14 +23,7 @@ def index():
 def order():
     if request.method == "POST":
         choix_ingredients = request.json
-        connection = sqlite3.connect(data_path)
-        cursor = connection.cursor()
-        orderArray = [str(ingre in choix_ingredients) for ingre in ingredients]
-        a = ", ".join(ingredients)
-        b = ", ".join(orderArray)
-        res = cursor.execute(f"INSERT INTO orders ({a}) VALUES ({b});")
-        connection.commit()
-        connection.close()
+        database.new_order(choix, choix_ingredients)
         return "{}"
     return render_template("order.html")
 
@@ -51,27 +42,14 @@ def orders():
 @app.route("/orders", methods = ["GET", "POST"])
 def ordersList():
     if request.method == "GET":
-        connection = sqlite3.connect(data_path)
-        cursor = connection.cursor()
-        res = cursor.execute("SELECT * FROM orders;")
-        res = res.fetchall()
-
-        def ingres_to_str(tup):
-            ingres = ", ".join([ingredients[i] for (i, b) in enumerate(tup[2:]) if b])
-            return (tup[0], tup[1], ingres)
-        res = list(map(ingres_to_str, res));
+        order_list = database.get_orders()
 
         print(res)
         connection.close()
         return jsonify({"list": res})
 
-    connection = sqlite3.connect(data_path)
-    cursor = connection.cursor()
-    print(f"delete: {request.json}")
-    ids = ", ".join(map(lambda idt : str(idt), request.json))
-    cursor.execute(f"DELETE FROM orders WHERE nb_commande IN ({ids});")
-    connection.commit()
     connection.close()
+    database.delete_orders(request.json)
 
     return "{}"
 

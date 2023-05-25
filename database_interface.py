@@ -39,3 +39,36 @@ class Database:
         noms = list(map(lambda t : t[0], res))
         print("les ingrés :", res)
         return res
+
+    #TODO
+    def new_order(self, choix_ingredients):
+        ingredients = database.get_ingredients()
+        connection = sqlite3.connect(data_path)
+        cursor = connection.cursor()
+        order_array = [str(ingre in choix_ingredients) for ingre in ingredients]
+        a = ", ".join(ingredients)
+        b = ", ".join(order_array)
+        res = cursor.execute(f"INSERT INTO orders ({a}) VALUES ({b});")
+        connection.commit()
+        connection.close()
+
+
+    #TODO
+    def get_orders(self):
+        connection = sqlite3.connect(data_path)
+        cursor = connection.cursor()
+        res = cursor.execute("SELECT * FROM orders;")
+        res = res.fetchall()
+
+        def ingres_to_str(tup):
+            ingres = ", ".join([ingredients[i] for (i, b) in enumerate(tup[2:]) if b])
+            return (tup[0], tup[1], ingres)
+        res = list(map(ingres_to_str, res));
+
+    #TODO
+    def delete_orders(self, ids):
+        connection = sqlite3.connect(data_path)
+        cursor = connection.cursor()
+        ids = ", ".join(map(lambda idt : str(idt), ids))
+        cursor.execute(f"DELETE FROM orders WHERE nb_commande IN ({ids});")
+        connection.commit()
