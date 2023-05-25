@@ -22,7 +22,13 @@ class Database:
 
     def __load_data(self, connection, data_folder):
         pass #TODO parser
-
+    
+    def update_stocks(self,liste_ingredient_commande):
+        connection = sqlite3.connect(self.__path)
+        cursor = connection.cursor()
+        cursor.execute("UPDATE stocks SET quantite=quantite-1 WHERE nom_ingredient=part;")
+        connection.close()
+        return 
 
     def get_ingredients(self):
         connection = sqlite3.connect(self.__path)
