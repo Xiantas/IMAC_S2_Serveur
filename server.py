@@ -22,8 +22,11 @@ def index():
 @app.route("/order.html", methods=['GET', 'POST'])
 def order():
     if request.method == "POST":
-        choix_ingredients = request.json
-        database.new_order(choix, choix_ingredients)
+        choix_ingredients = request.json 
+        ingredients = database.get_ingredients()
+        database.new_order(choix_ingredients,ingredients)
+        database.update_stocks(choix_ingredients)
+
         return "{}"
     return render_template("order.html")
 

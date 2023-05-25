@@ -47,9 +47,8 @@ class Database:
         return res
 
     #TODO
-    def new_order(self, choix_ingredients):
-        ingredients = database.get_ingredients()
-        connection = sqlite3.connect(data_path)
+    def new_order(self, choix_ingredients,ingredients):
+        connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
         order_array = [str(ingre in choix_ingredients) for ingre in ingredients]
         a = ", ".join(ingredients)
