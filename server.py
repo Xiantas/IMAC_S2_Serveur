@@ -21,18 +21,17 @@ def index():
 
 @app.route("/order.html", methods=['GET', 'POST'])
 def order():
-    if request.method == "POST":
-        choix_ingredients = request.json 
-        ingredients = database.get_ingredients()
-        database.new_order(choix_ingredients,ingredients)
-        database.update_stocks(choix_ingredients)
+    if request.method == "POST": #lancé depuis /order.html 
+        choix_ingredients = request.json #récupère ce que j'ai envoyé avec le fetch
+        database.new_order(choix_ingredients,"NULL")# met à jour oders et orderpart dans la bdd
+        database.update_stocks(choix_ingredients)#met à jour stocks 
 
         return "{}"
     return render_template("order.html")
 
 @app.route("/order")
 def parts_list():
-    return jsonify({"list": ingredients})
+    return jsonify({"list": database.get_ingredients})# récupéré apr order.thml
 
 @app.route("/orderSummary.html")
 def orderSummary():

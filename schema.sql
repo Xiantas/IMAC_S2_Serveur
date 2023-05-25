@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS stocks (
 );
 
 CREATE TABLE IF NOT EXISTS orders (
-    id_order INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_order INTEGER PRIMARY KEY,
     id_client INTEGER NOT NULL,
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(id_client) REFERENCES clients (id_client)
@@ -36,4 +36,7 @@ VALUES
 (3,"salade", 10, 12.89),
 (4,"tomate", 10 ,13.5),
 (5,"tamère" , 1 , 0.5);
+
+INSERT INTO clients(NULL)
+INSERT INTO orders (0,0)
 

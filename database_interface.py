@@ -26,9 +26,10 @@ class Database:
     def update_stocks(self,tab_ingredient_commande):
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
+        
         for (const part of tab_ingredient_commande) 
         {
-            cursor.execute("UPDATE stocks SET quantite=quantite-1 WHERE nom_ingredient=part;")
+            cursor.execute("UPDATE stocks SET quantite=quantite-1 WHERE id_ingredient=part[0];")
         }
 
         connection.commit()
@@ -42,18 +43,24 @@ class Database:
         res = cursor.execute("SELECT id_ingredient, nom_ingredient FROM stocks;")
         res = res.fetchall()
         connection.close()
-        noms = list(map(lambda t : t[0], res))
         print("les ingrés :", res)
         return res
 
     #TODO
-    def new_order(self, choix_ingredients,ingredients):
+    def new_order(self, choix_ingredients,id_client):
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
-        order_array = [str(ingre in choix_ingredients) for ingre in ingredients]
-        a = ", ".join(ingredients)
-        b = ", ".join(order_array)
-        res = cursor.execute(f"INSERT INTO orders ({a}) VALUES ({b});")
+        #order_array = [id_commande for ingre in choix_ingredients]
+        #b = ", ".join(choix_ingredients)
+        #a = ", ".join(order_array)
+        id_order=cursor.execute("SELECT MAX(id_order) FROM orders")+1
+        cursor.execute(f"INSERT INTO orders (id_order,id_client);")
+        for (const part of choix_ingredients) 
+        {
+            cursor.execute(f"INSERT INTO orderparts (id_order,part);")
+        }
+        
+        #res = cursor.execute(f"INSERT INTO orders ({a}) VALUES ({b});")
         connection.commit()
         connection.close()
 

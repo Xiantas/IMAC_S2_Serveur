@@ -17,41 +17,40 @@
 <script type="module">
 "use strict";
 
-let data = await fetch("/order");
+let data = await fetch("/order");// récupère la liste des ingrédients à la route /order sur le serv.py
 let parts = await data.json();
 
-
+// devrait créer la liste des éléments à checker sur la page /order.html et l'afficher ; ouvert sur le server.py quand on va sur /order.html 
 function onLoad() {
     const partsHolder = document.getElementsByTagName("parts")[0];
-
 
     const partsList = document.createElement("div");
     for (const part of parts.list) {
         let partOfList = document.createElement("div");
-        partOfList.innerHTML = `<input type=\"checkbox\" id=\"${part}\" name=\"${part}\"><label for=\"${part}\">${part}</label>`;
+        partOfList.innerHTML = `<input type=\"checkbox\" id=\"${part[0]}\" name=\"${part[1]}\"><label for=\"${part[1]}\">${part[1]}</label>`;
         partsList.appendChild(partOfList);
     }
     partsHolder.appendChild(partsList);
 }
-
+// lancée quand on appuie sur le bouton , créer la liste d'id d'ingrédients checkée
 function passerCommande() {
     let ingredients = [];
     for (const part of parts.list) {
-        if (document.getElementById(part).checked) {
+        if (document.getElementById(part[1]).checked) {
             
-            ingredients.push(part);
+            ingredients.push(part[0]);
         }
     }
     const send = JSON.stringify(ingredients);
     window.name = send;
-
+// renvoit sur le server.py avec la méthode post 
     fetch("/order.html", {
         method: "POST",
         headers: {
             'Accept': 'application/json',
             "Content-Type": "application/json"
         },
-        body: send
+        body: send // donnée envoyé
     })
         .then(_ => window.location.href = "/orderSummary.html");
 }
