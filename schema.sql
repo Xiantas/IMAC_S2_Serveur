@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS clients (
 );
 
 CREATE TABLE IF NOT EXISTS orderparts (
-    id_order INTEGER NOT NULL ,
+    id_order INTEGER NOT NULL,
     id_ingredient INTEGER NOT NULL ,
     PRIMARY KEY(id_order , id_ingredient),
     FOREIGN KEY(id_order) REFERENCES orders (id_order),
@@ -31,12 +31,13 @@ CREATE TABLE IF NOT EXISTS orderparts (
 
 INSERT INTO stocks 
 VALUES 
-(1,"viande", 10, 12.89),
-(2,"pain", 10, 12.89),
-(3,"salade", 10, 12.89),
-(4,"tomate", 10 ,13.5),
-(5,"tamère" , 1 , 0.5);
+(NULL,"viande", 10, 12.89),
+(NULL,"pain", 10, 12.89),
+(NULL,"salade", 10, 12.89),
+(NULL,"tomate", 10 ,13.5),
+(NULL,"tamère" , 1 , 0.5);
 
-INSERT INTO clients(NULL)
+INSERT INTO clients VALUES (NULL, "Joe", "Dalton", "joedalton@shrug.com", "prison")
+/*
 INSERT INTO orders (0,0)
-
+*/

@@ -50,10 +50,10 @@ class Database:
         #order_array = [id_commande for ingre in choix_ingredients]
         #b = ", ".join(choix_ingredients)
         #a = ", ".join(order_array)
-        cursor.execute(f"INSERT INTO orders (NULL,{id_client}, NULL);")
+        cursor.execute(f"INSERT INTO orders (id_client) VALUES ({id_client});")
         id_order = cursor.lastrowid
         for part in choix_ingredients :
-            cursor.execute(f"INSERT INTO orderparts ({id_order},{part});")
+            cursor.execute(f"INSERT INTO orderparts VALUES ({id_order},{part});")
         
         #res = cursor.execute(f"INSERT INTO orders ({a}) VALUES ({b});")
         connection.commit()
@@ -64,8 +64,9 @@ class Database:
     def get_orders(self): #utilisé dans /orders 
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
-        res = cursor.execute("SELECT * FROM orders JOIN orderparts ON order.id_order=orderparts.id_order ORDERBY id_client;")#ca nous donne id_order id_client TIMESTAMP id_ingredient, liste de tupes à 4 éléments 
-        res = res.fetchall()
+        res = cursor.execute("SELECT * FROM orders JOIN orderparts ON orders.id_order=orderparts.id_order ORDER BY orders.id_order;")#ca nous donne id_order id_client TIMESTAMP id_ingredient, liste de tupes à 4 éléments 
+        res = res.fetchall() 
+        print(res)
         #def ingres_to_str(tup):
             #ingres = ", ".join([ingredients[i] for (i, b) in enumerate(tup[2:]) if b])
             #return (tup[0], tup[1], ingres)
