@@ -50,9 +50,10 @@ class Database:
         #order_array = [id_commande for ingre in choix_ingredients]
         #b = ", ".join(choix_ingredients)
         #a = ", ".join(order_array)
-        cursor.execute(f"INSERT INTO orders (NULL,{id_client});")
-        for part in choix_ingredients : 
-            cursor.execute(f"INSERT INTO orderparts (id_order,part);")
+        cursor.execute(f"INSERT INTO orders (NULL,{id_client}, NULL);")
+        id_order = cursor.lastrowid
+        for part in choix_ingredients :
+            cursor.execute(f"INSERT INTO orderparts ({id_order},{part});")
         
         #res = cursor.execute(f"INSERT INTO orders ({a}) VALUES ({b});")
         connection.commit()
