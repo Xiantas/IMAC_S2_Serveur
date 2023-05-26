@@ -43,14 +43,10 @@ def orders():
 
 @app.route("/orders", methods = ["GET", "POST"])
 def ordersList():
-    if request.method == "GET":
-        order_list = database.get_orders()
-
-        print(res)
-        connection.close()
-        return jsonify({"list": res})
-
-    connection.close()
+    if request.method == "GET": #récupéré par orders.html
+        order_list = database.get_orders()#c'est une liste de tuples avec id_order id_client TIMESTAMP id_ingredient
+        return jsonify({"list": order_list})
+    
     database.delete_orders(request.json)
 
     return "{}"

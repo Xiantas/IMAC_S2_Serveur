@@ -27,11 +27,8 @@ class Database:
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
         
-        for (const part of tab_ingredient_commande) 
-        {
+        for  part in tab_ingredient_commande :
             cursor.execute("UPDATE stocks SET quantite=quantite-1 WHERE id_ingredient=part[0];")
-        }
-
         connection.commit()
         connection.close()
         return 
@@ -53,12 +50,10 @@ class Database:
         #order_array = [id_commande for ingre in choix_ingredients]
         #b = ", ".join(choix_ingredients)
         #a = ", ".join(order_array)
-        id_order=cursor.execute("SELECT MAX(id_order) FROM orders")+1
+        id_order=cursor.execute("SELECT MAX(id_order) FROM orders;")+1
         cursor.execute(f"INSERT INTO orders (id_order,id_client);")
-        for (const part of choix_ingredients) 
-        {
+        for part in choix_ingredients : 
             cursor.execute(f"INSERT INTO orderparts (id_order,part);")
-        }
         
         #res = cursor.execute(f"INSERT INTO orders ({a}) VALUES ({b});")
         connection.commit()
@@ -66,16 +61,16 @@ class Database:
 
 
     #TODO
-    def get_orders(self):
-        connection = sqlite3.connect(data_path)
+    def get_orders(self):#utilisé dans /orders 
+        connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
-        res = cursor.execute("SELECT * FROM orders;")
+        res = cursor.execute("SELECT * FROM orders JOIN orderparts ON order.id_order=orderparts.id_order ORDERBY id_client;")#ca nous donne id_order id_client TIMESTAMP id_ingredient, liste de tupes à 4 éléments 
         res = res.fetchall()
-
-        def ingres_to_str(tup):
-            ingres = ", ".join([ingredients[i] for (i, b) in enumerate(tup[2:]) if b])
-            return (tup[0], tup[1], ingres)
-        res = list(map(ingres_to_str, res));
+        #def ingres_to_str(tup):
+            #ingres = ", ".join([ingredients[i] for (i, b) in enumerate(tup[2:]) if b])
+            #return (tup[0], tup[1], ingres)
+        #res = list(map(ingres_to_str, res))
+        return res 
 
     #TODO
     def delete_orders(self, ids):

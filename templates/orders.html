@@ -18,7 +18,7 @@
 <script type="module">
 "use strict";
 
-let data = await fetch("/orders");
+let data = await fetch("/orders");//fetch méthode get , select avec get_order id_order id_client TIMESTAMP id_ingredient pour chaque ingrédient, pour chaque id_client trié par id_order 
 let orders = await data.json();
 
 
@@ -27,10 +27,29 @@ function onLoad() {
 
 
     const partsList = document.createElement("div");
-    for (const [id, time, ingres] of orders.list) {
-        let partOfList = document.createElement("div");
-        partOfList.innerHTML = `<input type=\"checkbox\" id=\"${id}\" name=\"${id}\"><label for=\"${id}\">n°${id} à ${time} : ${ingres}</label>`;
-        partsList.appendChild(partOfList);
+    orderstab=[];
+    numero_commande=0;
+    for (let i = 0; i < orders.length; i++)
+    {
+    id_order0=(orders[i])[0];
+    compte_ingredient=0;
+    while(id_order==id_order)//je créer un tab dans lequel chaque élément est la liste d'ingrédients d'une commande
+    {   
+        (orderstab[numero_commande])[compte_ingredient]=[(orders[i])[0],(orders[i])[1],(orders[i])[2],(orders[i])[3]]
+        i++;
+        id_order=(orders[i])[0];
+        compte_ingredient++;
+    }
+    numero_commande++;
+    }
+    for (const commande of orders.list)
+    {
+        for([id_order,id_client,time,ingredient] of commande.list)
+        {
+            let partOfList = document.createElement("div");
+            partOfList.innerHTML = `<input type=\"checkbox\" id=\"${id_order}\" name=\"${id_order}\"><label for=\"${id_order}\">n°${id_order} à ${time} pour ${id_client}: ${ingredient}</label>`;//Todo
+            partsList.appendChild(partOfList);
+        }
     }
     partsHolder.appendChild(partsList);
 }
