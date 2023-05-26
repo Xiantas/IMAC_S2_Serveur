@@ -25,24 +25,29 @@ function onLoad() {
     const partsHolder = document.getElementsByTagName("parts")[0];
 
     const partsList = document.createElement("div");
+    partsList.setAttribute("id", "container");
     for (const part of parts.list) {
         let partOfList = document.createElement("div");
-        partOfList.innerHTML = `<input type=\"checkbox\" id=\"${part[0]}\" name=\"${part[1]}\"><label for=\"${part[1]}\">${part[1]}</label>`;
+        partOfList.innerHTML = `<input type=\"checkbox\" id=\"${part[0]}\" name=\"${part[0]}\"><label for=\"${part[0]}\">${part[1]}</label>`;
         partsList.appendChild(partOfList);
     }
     partsHolder.appendChild(partsList);
 }
+
 // lancée quand on appuie sur le bouton , créer la liste d'id d'ingrédients checkée
 function passerCommande() {
     let ingredients = [];
-    for (const part of parts.list) {
-        if (document.getElementById(part[1]).checked) {
-            
-            ingredients.push(part[0]);
+    const boxes = document.getElementById("container").getElementsByTagName("input");
+    for (const box of boxes) {
+        if (box.checked) {
+            ingredients.push(box.id);
         }
     }
     const send = JSON.stringify(ingredients);
-    window.name = send;
+    window.name = JSON.stringify({
+        infos: parts.list,
+        taken: ingredients
+    });
 // renvoit sur le server.py avec la méthode post 
     fetch("/order.html", {
         method: "POST",
@@ -50,7 +55,7 @@ function passerCommande() {
             'Accept': 'application/json',
             "Content-Type": "application/json"
         },
-        body: send // donnée envoyé
+        body: send // donnée envoyée
     })
         .then(_ => window.location.href = "/orderSummary.html");
 }

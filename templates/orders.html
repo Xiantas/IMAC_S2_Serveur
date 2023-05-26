@@ -27,13 +27,14 @@ function onLoad() {
 
 
     const partsList = document.createElement("div");
+    partsList.setAttribute("id", "container");
     orderstab=[];
     numero_commande=0;
     for (let i = 0; i < orders.length; i++)
     {
     id_order0=(orders[i])[0];
     compte_ingredient=0;
-    while(id_order==id_order)//je créer un tab dans lequel chaque élément est la liste d'ingrédients d'une commande
+    while(id_order==id_order)//je crée un tab dans lequel chaque élément est la liste d'ingrédients d'une commande
     {   
         (orderstab[numero_commande])[compte_ingredient]=[(orders[i])[0],(orders[i])[1],(orders[i])[2],(orders[i])[3]]
         i++;
@@ -56,9 +57,10 @@ function onLoad() {
 
 function supprimmerCommandes() {
     let suppressions = [];
-    for (const [id, a, b] of orders.list) {
-        if (document.getElementById(id).checked) {
-            suppressions.push(id);
+    const boxes = document.getElementById("container").getElementsByTagName("input");
+    for (const box of boxes) {
+        if (box.checked) {
+            suppressions.push(box.id);
         }
     }
 

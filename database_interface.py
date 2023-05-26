@@ -27,8 +27,8 @@ class Database:
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
         
-        for  part in tab_ingredient_commande :
-            cursor.execute("UPDATE stocks SET quantite=quantite-1 WHERE id_ingredient=part[0];")
+        for part in tab_ingredient_commande:
+            cursor.execute(f"UPDATE stocks SET quantite=quantite-1 WHERE id_ingredient={part[0]};")
         connection.commit()
         connection.close()
         return 
@@ -50,8 +50,7 @@ class Database:
         #order_array = [id_commande for ingre in choix_ingredients]
         #b = ", ".join(choix_ingredients)
         #a = ", ".join(order_array)
-        id_order=cursor.execute("SELECT MAX(id_order) FROM orders;")+1
-        cursor.execute(f"INSERT INTO orders (id_order,id_client);")
+        cursor.execute(f"INSERT INTO orders (NULL,{id_client});")
         for part in choix_ingredients : 
             cursor.execute(f"INSERT INTO orderparts (id_order,part);")
         
@@ -61,7 +60,7 @@ class Database:
 
 
     #TODO
-    def get_orders(self):#utilisé dans /orders 
+    def get_orders(self): #utilisé dans /orders 
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
         res = cursor.execute("SELECT * FROM orders JOIN orderparts ON order.id_order=orderparts.id_order ORDERBY id_client;")#ca nous donne id_order id_client TIMESTAMP id_ingredient, liste de tupes à 4 éléments 
