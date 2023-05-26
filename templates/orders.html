@@ -28,29 +28,32 @@ function onLoad() {
 
     const partsList = document.createElement("div");
     partsList.setAttribute("id", "container");
-    orderstab=[];
+    commande=[];
     numero_commande=0;
-    for (let i = 0; i < orders.length; i++)
+    for (let i = 0; i < orders.length; i++)//  je fais un for sur ce bazar avec tout les ingrédients de toutes les commandes triées par id_order ce qui me permet de faire un while (tant que c'est la commande n°XXX : on regroupe tout les ingrédients ) . Le résultat c'est un tab avec des tuples à 4 éléments : id_order, id_client, time , ingredients . Ingredients c'est un tab avec tout les ingrédients que je créer dans la while. 
     {
-    id_order0=(orders[i])[0];
-    compte_ingredient=0;
-    while(id_order==id_order)//je crée un tab dans lequel chaque élément est la liste d'ingrédients d'une commande
-    {   
-        (orderstab[numero_commande])[compte_ingredient]=[(orders[i])[0],(orders[i])[1],(orders[i])[2],(orders[i])[3]]
-        i++;
-        id_order=(orders[i])[0];
-        compte_ingredient++;
-    }
-    numero_commande++;
-    }
-    for (const commande of orders.list)
-    {
-        for([id_order,id_client,time,ingredient] of commande.list)
+        id_order0=(orders[i])[0];
+        id_order=id_order0;
+        id_client=(orders[i])[1];
+        time=(orders[i])[2];
+        compte_ingredient=0;
+        (commande[numero_commande])=[id_order,id_client,time,[]]; 
+        while(id_order==id_order0)
         {
-            let partOfList = document.createElement("div");
-            partOfList.innerHTML = `<input type=\"checkbox\" id=\"${id_order}\" name=\"${id_order}\"><label for=\"${id_order}\">n°${id_order} à ${time} pour ${id_client}: ${ingredient}</label>`;//Todo
-            partsList.appendChild(partOfList);
+            ingredient=(orders[i])[3];
+            ((commande[numero_commande])[3])[compte_ingredient]=ingredient;
+            i++;
+            id_order=(orders[i])[0]
+            compte_ingredient++;
         }
+        numero_commande++;
+    }
+    
+    for([id_order,id_client,time,ingredients] of commande.list)
+    {
+        let partOfList = document.createElement("div");
+        partOfList.innerHTML = `<input type=\"checkbox\" id=\"${id_order}\" name=\"${id_order}\"><label for=\"${id_order}\">n°${id_order} à ${time} pour ${id_client}: ${ingredients.join(', ')}</label>`;
+        partsList.appendChild(partOfList);
     }
     partsHolder.appendChild(partsList);
 }
