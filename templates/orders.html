@@ -19,8 +19,11 @@
 "use strict";
 
 let data = await fetch("/orders");//fetch méthode get , select avec get_order id_order id_client TIMESTAMP id_ingredient pour chaque ingrédient, pour chaque id_client trié par id_order 
-let orders = await data.json();
+const orders = (await data.json()).list;
 
+data = await fetch("/ingres");
+const ingres = (await data.json()).list;
+const ordersArray = [];
 
 function onLoad() {
     const partsHolder = document.getElementsByTagName("parts")[0];
@@ -28,31 +31,27 @@ function onLoad() {
 
     const partsList = document.createElement("div");
     partsList.setAttribute("id", "container");
-    let commande=[];
-    let numero_commande=0;
-    for (let i = 0; i < orders.length; i++)//  je fais un for sur ce bazar avec tout les ingrédients de toutes les commandes triées par id_order ce qui me permet de faire un while (tant que c'est la commande n°XXX : on regroupe tout les ingrédients ) . Le résultat c'est un tab avec des tuples à 4 éléments : id_order, id_client, time , ingredients . Ingredients c'est un tab avec tout les ingrédients que je créer dans la while. 
+    //  je fais un for sur ce bazar avec tout les ingrédients de toutes les commandes
+    // triées par id_order ce qui me permet de faire un while
+    // (tant que c'est la commande n°XXX : on regroupe tout les ingrédients).
+    //Le résultat c'est un tab avec des tuples à 4 éléments : id_order, id_client, time, ingredients.
+    //Ingredients c'est un tab avec tout les ingrédients que je créer dans la while. 
+    for (let i = 0; i < orders.length; i++)
     {
-        id_order0=(orders[i])[0];
-        id_order=id_order0;
-        id_client=(orders[i])[1];
-        time=(orders[i])[2];
-        compte_ingredient=0;
-        (commande[numero_commande])=[id_order,id_client,time,[]]; 
-        while(id_order==id_order0)
-        {
-            ingredient=(orders[i])[3];
-            ((commande[numero_commande])[3])[compte_ingredient]=ingredient;
-            i++;
-            id_order=(orders[i])[0]
-            compte_ingredient++;
+        const id_order=orders[i][0];
+        const orderContent = [];
+        for (; i < orders.length && id_order==orders[i][0]; i++) {
+            const nomIngre = ingres.find(e => {return e[0] == orders[i][3]})[1];
+            orderContent.push(nomIngre);
         }
-        numero_commande++;
+        ordersArray.push([id_order,orders[i-1][1],orders[i-1][2],orderContent.join(", ")]); 
     }
-    
-    for([id_order,id_client,time,ingredients] of commande)
+    console.log(ordersArray);
+
+    for(const [id_order,id_client,time,ingredients] of ordersArray)
     {
         let partOfList = document.createElement("div");
-        partOfList.innerHTML = `<input type=\"checkbox\" id=\"${id_order}\" name=\"${id_order}\"><label for=\"${id_order}\">n°${id_order} à ${time} pour ${id_client}: ${ingredients.join(', ')}</label>`;
+        partOfList.innerHTML = `<input type=\"checkbox\" id=\"${id_order}\" name=\"${id_order}\"><label for=\"${id_order}\">n°${id_order} à ${time} pour ${id_client}: ${ingredients}</label>`;
         partsList.appendChild(partOfList);
     }
     partsHolder.appendChild(partsList);
@@ -68,6 +67,7 @@ function supprimmerCommandes() {
     }
 
     const send = JSON.stringify(suppressions);
+    window.name = send;
 
     fetch("/orders", {
         method: "POST",

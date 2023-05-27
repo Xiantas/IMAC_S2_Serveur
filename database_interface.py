@@ -54,7 +54,7 @@ class Database:
         id_order = cursor.lastrowid
         for part in choix_ingredients :
             cursor.execute(f"INSERT INTO orderparts VALUES ({id_order},{part});")
-        
+
         #res = cursor.execute(f"INSERT INTO orders ({a}) VALUES ({b});")
         connection.commit()
         connection.close()
@@ -64,7 +64,7 @@ class Database:
     def get_orders(self): #utilisé dans /orders 
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
-        res = cursor.execute("SELECT * FROM orders JOIN orderparts ON orders.id_order=orderparts.id_order ORDER BY orders.id_order;")#ca nous donne id_order id_client TIMESTAMP id_ingredient, liste de tupes à 4 éléments 
+        res = cursor.execute("SELECT orders.id_order, id_client, created, id_ingredient FROM orders JOIN orderparts ON orders.id_order=orderparts.id_order ORDER BY orders.id_order;")#ca nous donne id_order id_client TIMESTAMP id_ingredient, liste de tupes à 4 éléments 
         res = res.fetchall() 
         print(res)
         #def ingres_to_str(tup):
@@ -75,8 +75,8 @@ class Database:
 
     #TODO
     def delete_orders(self, ids):
-        connection = sqlite3.connect(data_path)
+        connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
         ids = ", ".join(map(lambda idt : str(idt), ids))
-        cursor.execute(f"DELETE FROM orders WHERE nb_commande IN ({ids});")
+        cursor.execute(f"DELETE FROM orders WHERE id_order IN ({ids});")
         connection.commit()
