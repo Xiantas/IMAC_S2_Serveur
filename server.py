@@ -52,6 +52,22 @@ def ordersList():
 
     return "{}"
 
+@app.route("/login.html", methods=['GET', 'POST'])
+def login():
+    if request.method == "POST":
+        email = request.form.get("adresse_email")
+        password = request.form.get("mdp")
+    return render_template("login.html")
+
+@app.route("/register.html", methods=['GET', 'POST'])
+def register():
+    if request.method == "POST":
+        name = request.form.get("nom_client")
+        email = request.form.get("adresse_email")
+        password = request.form.get("mdp")
+        address = request.form.get("addresse")
+    return render_template("register.html")
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
     print("Server shutdown")
