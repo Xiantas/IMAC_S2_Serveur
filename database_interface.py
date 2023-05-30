@@ -54,7 +54,7 @@ class Database:
         password=""
         res = cursor.execute(f"SELECT id_client FROM clients WHERE adresse='{adresse}' AND mdp='{password}';")
         res = res.fetchall()
-        cursor.execute(f"INSERT INTO orders VALUES (NULL,{id_client},NULL);")
+        cursor.execute(f"INSERT INTO orders (id_client) VALUES ({id_client});")
         id_order = cursor.lastrowid
         for part in choix_ingredients :
             cursor.execute(f"INSERT INTO orderparts VALUES ({id_order},{part});")
