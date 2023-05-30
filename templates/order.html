@@ -11,7 +11,7 @@
     <p>Ingrédients disponibles :</p>
     <parts>
     </parts>
-
+        <button id="leBouton">Commander</button>
     {% if user_is_authenticated %}
         <button id="leBouton">Commander</button>
     {% else %}
@@ -66,10 +66,12 @@
         }
 
         onLoad();
+        const bouton = document.getElementById("leBouton");
+        bouton.addEventListener("click", passerCommande);
     </script>
     {% if user_is_authenticated %}
-    const bouton = document.getElementById("leBouton");
-    bouton.addEventListener("click", passerCommande);
+        const bouton = document.getElementById("leBouton");
+        bouton.addEventListener("click", passerCommande);
     {% endif %}
 </body>
 </html>```

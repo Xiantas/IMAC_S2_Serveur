@@ -44,14 +44,14 @@ function onLoad() {
             const nomIngre = ingres.find(e => {return e[0] == orders[i][3]})[1];
             orderContent.push(nomIngre);
         }
-        ordersArray.push([id_order,orders[i-1][1],orders[i-1][2],orderContent.join(", ")]); 
+        ordersArray.push([id_order,orders[i-1][1],orders[i-1][2],orderContent.join(", "),orders[i-1][4]]); 
     }
     console.log(ordersArray);
 
-    for(const [id_order,id_client,time,ingredients] of ordersArray)
+    for(const [id_order,nom_client,time,ingredients,adresse_client] of ordersArray)
     {
         let partOfList = document.createElement("div");
-        partOfList.innerHTML = `<input type=\"checkbox\" id=\"${id_order}\" name=\"${id_order}\"><label for=\"${id_order}\">n°${id_order} à ${time} pour ${id_client}: ${ingredients}</label>`;
+        partOfList.innerHTML = `<input type=\"checkbox\" id=\"${id_order}\" name=\"${id_order}\"><label for=\"${id_order}\">n°${id_order} à ${time} à livrer au ${adresse_client} à  ${nom_client}: ${ingredients}</label>`;
         partsList.appendChild(partOfList);
     }
     partsHolder.appendChild(partsList);
