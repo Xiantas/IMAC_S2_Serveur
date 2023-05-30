@@ -2,9 +2,9 @@
     <head>
     <meta charset="utf-8">
         <!-- importer le fichier de style -->
-        <link rel="stylesheet" type="text/css" href="../css/page.css">
-        <link rel="stylesheet" type="text/css" href="../css/nav&footer.css">
-        <link rel="stylesheet" type="text/css" href="../css/connexion.css">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'nav&footer.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'page.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'connexion.css') }}">
     </head>
     <body>
         <nav>
