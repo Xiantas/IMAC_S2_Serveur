@@ -17,7 +17,7 @@ p a {
     color: white;
     display: block;
     margin: 0 auto;
-    margin-top: 10%;
+    margin-top: 30px;
     z-index: 1;
     cursor: pointer;
     text-decoration: none;

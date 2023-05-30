@@ -15,8 +15,8 @@
                 <!--<img src="IMAGES/Nume.png">-->
             </a>
             <a href="/order.html">Commander</a>
-            <a href="/orders.html">Récapitulatif Commande</a>
-            <a href="/orderSummary.html">Historique Commande</a>
+            <a href="/orderSummary.html">Récapitulatif Commande</a>
+            <a href="/orders.html">Historique Commande</a>
             <a href="/register.html">S'inscrire</a>
             <a href="/login.html">Connexion</a>
         </div>
@@ -66,7 +66,7 @@ function onLoad() {
     for(const [id_order,nom_client,time,ingredients,adresse_client] of ordersArray)
     {
         let partOfList = document.createElement("div");
-        partOfList.innerHTML = `<input type=\"checkbox\" id=\"${id_order}\" name=\"${id_order}\"><label for=\"${id_order}\">n°${id_order} à ${time} à livrer au ${adresse_client} à  ${nom_client}: ${ingredients}</label>`;
+        partOfList.innerHTML = `<input type=\"checkbox\" id=\"${id_order}\" name=\"${id_order}\"><label=\"${id_order}\">n°${id_order} à ${time} à livrer au ${adresse_client} à  ${nom_client}: ${ingredients}</label>`;
         partsList.appendChild(partOfList);
     }
     partsHolder.appendChild(partsList);
