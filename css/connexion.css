@@ -1,0 +1,97 @@
+body{
+    background: #e3e3e3;
+    position: relative;
+    font-family: "Avenir Book", sans-serif;
+  }
+
+#container{
+    width: 500px;
+    height: auto;
+    margin: 5% auto;
+}
+
+form {
+    width:auto;
+    padding: 30px;
+    border-radius:15px;
+    background: #fff;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    font-family: "Avenir Book", sans-serif;
+}
+
+#container h1{
+    text-align: center;
+    width: 38%;
+    margin: 0 auto;
+    padding-bottom: 10px;
+}
+
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 8px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-family: "Avenir Book", sans-serif;
+}
+
+input[type=submit] {
+    background-color:#4879BC;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius:8px;
+    cursor: pointer;
+    width: 100%;
+    font-family: "Avenir Book", sans-serif;
+    text-align: center;
+}
+
+input[type=submit]:hover {
+    background-color: white;
+    color: #3680EC;
+    border: 1px solid #3680EC;
+    font-family: "Avenir Book", sans-serif;
+}
+
+@media all and (max-width: 991px){
+    #container{
+        width: auto;
+        margin: 5%;
+        font-size: 25;
+    }
+    input{
+        font-size: 28;
+    }
+
+        input[type=text], input[type=password] {
+        width: 100%;
+        padding: 20px 8px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        font-family: "Avenir Book", sans-serif;
+    }
+    
+    input[type=submit] {
+        background-color:#4879BC;
+        color: white;
+        padding: 15px 20px;
+        margin: 25px 0;
+        border: none;
+        border-radius:8px;
+        cursor: pointer;
+        width: 100%;
+        font-family: "Avenir Book", sans-serif;
+        text-align: center;
+    }
+    
+    form{
+        margin-top: 10%;
+        margin-bottom: 10%;
+    }
+}
