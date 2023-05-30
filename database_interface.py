@@ -50,7 +50,11 @@ class Database:
         #order_array = [id_commande for ingre in choix_ingredients]
         #b = ", ".join(choix_ingredients)
         #a = ", ".join(order_array)
-        cursor.execute(f"INSERT INTO orders (id_client) VALUES ({id_client});")
+        adresse=""
+        password=""
+        res = cursor.execute(f"SELECT id_client FROM clients WHERE adresse='{adresse}' AND mdp='{password}';")
+        res = res.fetchall()
+        cursor.execute(f"INSERT INTO orders VALUES (NULL,{id_client},NULL);")
         id_order = cursor.lastrowid
         for part in choix_ingredients :
             cursor.execute(f"INSERT INTO orderparts VALUES ({id_order},{part});")
