@@ -2,11 +2,24 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="../css/page.css">
+    <link rel="stylesheet" type="text/css" href="../css/nav&footer.css">
     <title>Biggimac</title>
 </head>
 <body>
-    <p><a href="/index.html">Retour</a></p>
+    <nav>
+        <label for="toggle">☰</label>
+        <input type="checkbox" id="toggle">
+        <div class="main_pages">
+            <a href="/index.html">Accueil
+                <!--<img src="IMAGES/Nume.png">-->
+            </a>
+            <a href="/order.html">Marketplace </a>
+            <a href="/orders.html">À propos</a>
+            <a href="/connexion.html">Connexion</a>
+        </div>
+    </nav>
+    <p><a href="/index.html">Retour à la page précédente</a></p>
     <p></p>
     <p>Ingrédients disponibles :</p>
     <parts>
@@ -15,8 +28,8 @@
     {% if user_is_authenticated %}
         <button id="leBouton">Commander</button>
     {% else %}
-        <p>Vous devez être connecté pour passer une commande.</p>
-        <a href="/login.html">Se connecter</a> | <a href="/register.html">S'inscrire</a>
+        <p id="texte">Vous devez être connecté pour passer une commande.</p>
+        <a id="bouton_a" href="/login.html">Se connecter</a> <!--|--> <a id="bouton_a" href="/register.html">S'inscrire</a>
     {% endif %}
 
     <script type="module">
