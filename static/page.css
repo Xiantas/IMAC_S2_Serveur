@@ -70,3 +70,7 @@ p a{position:relative;z-index:8;}
 #texte{
     text-align: center;
 }
+
+#container{
+    color: black;
+}
