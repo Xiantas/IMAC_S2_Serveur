@@ -2,9 +2,23 @@
     <head>
     <meta charset="utf-8">
         <!-- importer le fichier de style -->
-        <link rel="stylesheet" href="connexion.css" media="screen" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="../css/page.css">
+        <link rel="stylesheet" type="text/css" href="../css/nav&footer.css">
+        <link rel="stylesheet" type="text/css" href="../css/connexion.css">
     </head>
     <body>
+        <nav>
+            <label for="toggle">☰</label>
+            <input type="checkbox" id="toggle">
+            <div class="main_pages">
+                <a href="/index.html">Accueil
+                    <!--<img src="IMAGES/Nume.png">-->
+                </a>
+                <a href="/order.html">Marketplace </a>
+                <a href="/orders.html">À propos</a>
+                <a href="/connexion.html">Connexion</a>
+            </div>
+        </nav>
         <div id="container">
             <form action="/login.html" method="POST">
                 <h1>Connexion</h1>

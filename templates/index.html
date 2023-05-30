@@ -2,11 +2,24 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="../css/page.css">
+    <link rel="stylesheet" type="text/css" href="../css/nav&footer.css">
     <title>Biggimac</title>
 </head>
 <body>
+    <nav>
+        <label for="toggle">☰</label>
+        <input type="checkbox" id="toggle">
+        <div class="main_pages">
+            <a href="/index.html">Accueil
+                <!--<img src="IMAGES/Nume.png">-->
+            </a>
+            <a href="/order.html">Marketplace </a>
+            <a href="/orders.html">À propos</a>
+            <a href="/connexion.html">Connexion</a>
+        </div>
+    </nav>
     <p><a href="/order.html">Effectuer une commande</a></p>
-    <p><a href="/orders.html">Voir les commandes</a></p>
+    <p><a href="/orders.html">Consulter les commandes</a></p>
     </body>
 </html>
