@@ -55,18 +55,27 @@ def ordersList():
 @app.route("/login.html", methods=['GET', 'POST'])
 def login():
     if request.method == "POST":
-        email = request.form.get("adresse_email")
-        password = request.form.get("mdp")
+        email = request.form.get("adresse_mail")
+        password = request.form.get("password")
+        res=database.login(email,password)
+        if len(res)==0:
+            return render_template("login.html")
+        return render_template("order.html")
     return render_template("login.html")
 
 @app.route("/register.html", methods=['GET', 'POST'])
 def register():
     if request.method == "POST":
-        name = request.form.get("nom_client")
-        email = request.form.get("adresse_email")
-        password = request.form.get("mdp")
-        address = request.form.get("addresse")
+        name = request.form.get("name")#si j'ai bien compris il faut la même chaine de caractère pour que le serveur reconnaisse la bonne ligne du form
+        email = request.form.get("email")
+        password = request.form.get("password")
+        address = request.form.get("address")
+        database.register(name,email,password,address)
+        return render_template("order.html")
+
     return render_template("register.html")
+
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)

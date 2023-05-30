@@ -16,7 +16,7 @@ class Database:
 
         self.__load_data(connection, data_folder)
         connection.commit()
-
+        JSON.stringify(ingredients)
         connection.close()
 
 
@@ -80,3 +80,21 @@ class Database:
         ids = ", ".join(map(lambda idt : str(idt), ids))
         cursor.execute(f"DELETE FROM orders WHERE id_order IN ({ids});")
         connection.commit()
+        connection.close()
+
+    def register(self,name,email,password,address):
+        connection = sqlite3.connect(self.__path)
+        cursor = connection.cursor()
+        cursor.execute(f"INSERT INTO clients VALUES (NULL,'{name}','{email}','{password}','{address}');")
+        print(cursor.execute(f"SELECT * FROM clients;").fetchall())
+        connection.commit()
+        connection.close()
+
+    def login(self,email,password):
+        connection = sqlite3.connect(self.__path)
+        cursor = connection.cursor()
+        res = cursor.execute("SELECT id_client FROM clients WHERE adresse_mail='{email}' OR mdp='{password}';")
+        res = res.fetchall()
+        connection.close()
+        return res
+        
