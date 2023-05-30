@@ -64,9 +64,8 @@ class Database:
     def get_orders(self): #utilisé dans /orders 
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
-        res = cursor.execute("SELECT orders.id_order, id_client, created, id_ingredient FROM orders JOIN orderparts ON orders.id_order=orderparts.id_order ORDER BY orders.id_order;")#ca nous donne id_order id_client TIMESTAMP id_ingredient, liste de tupes à 4 éléments 
+        res = cursor.execute("SELECT orders.id_order, nom_client, created, id_ingredient, adresse FROM orders JOIN orderparts ON orders.id_order=orderparts.id_order JOIN clients ON orders.id_client=clients.id_client ORDER BY orders.id_order;")#ca nous donne id_order id_client TIMESTAMP id_ingredient, liste de tupes à 4 éléments 
         res = res.fetchall() 
-        print(res)
         #def ingres_to_str(tup):
             #ingres = ", ".join([ingredients[i] for (i, b) in enumerate(tup[2:]) if b])
             #return (tup[0], tup[1], ingres)
@@ -95,7 +94,7 @@ class Database:
         cursor = connection.cursor()
         
         res = cursor.execute(f"SELECT id_client FROM clients WHERE adresse_mail='{email}' AND mdp='{password}';")
-        res = res.fetchall
+        res = res.fetchall()
         connection.close()
         return res
         
