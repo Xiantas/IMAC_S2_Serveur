@@ -16,7 +16,6 @@ class Database:
 
         self.__load_data(connection, data_folder)
         connection.commit()
-        JSON.stringify(ingredients)
         connection.close()
 
 
