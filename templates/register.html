@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'nav&footer.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'page.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'connexion.css') }}">
+    <title>Inscription</title>
+</head>
+<body>
+    <nav>
+        <label for="toggle">☰</label>
+        <input type="checkbox" id="toggle">
+        <div class="main_pages">
+            <a href="/index.html">Accueil
+                <!--<img src="IMAGES/Nume.png">-->
+            </a>
+            <a href="/order.html">Commander</a>
+            <a href="/orderSummary.html">Récapitulatif Commande</a>
+            <a href="/orders.html">Historique Commande</a>
+            <a href="/register.html">S'inscrire</a>
+            <a href="/login.html">Connexion</a>
+        </div>
+    </nav>
+    <div id="container">
+    <form action="/register.html" method="POST">
+        <h1>Inscription</h1>
+        <label for="name">Nom :</label>
+        <input type="text" placeholder="Entrer votre nom" id="name" name="name" required><br>
+
+        <label for="email">Adresse e-mail :</label>
+        <input type="email" placeholder="Entrer votre adresse mail" id="email" name="email" required><br>
+
+        <label for="password">Mot de passe :</label>
+        <input type="password" placeholder="Entrer un mot de passe" id="password" name="password" required><br>
+
+        <label for="address">Adresse :</label>
+        <input type="text" placeholder="Entrer votre adresse" id="address" name="address" required><br>
+
+        <input type="submit" value="S'inscrire">
+    </form>
+</div>
+</body>
+</html>

@@ -2,11 +2,26 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'nav&footer.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'page.css') }}">
     <title>Biggimac</title>
 </head>
 <body>
-    <p><a href="/index.html">Retour</a></p>
+    <nav>
+        <label for="toggle">☰</label>
+        <input type="checkbox" id="toggle">
+        <div class="main_pages">
+            <a href="/index.html">Accueil
+                <!--<img src="IMAGES/Nume.png">-->
+            </a>
+            <a href="/order.html">Commander</a>
+            <a href="/orderSummary.html">Récapitulatif Commande</a>
+            <a href="/orders.html">Historique Commande</a>
+            <a href="/register.html">S'inscrire</a>
+            <a href="/login.html">Connexion</a>
+        </div>
+    </nav>
+    <p><a href="/index.html">Retour à la page précédente</a></p>
     <p></p>
     <p>Liste des commandes passées :</p>
     <parts>
@@ -44,14 +59,14 @@ function onLoad() {
             const nomIngre = ingres.find(e => {return e[0] == orders[i][3]})[1];
             orderContent.push(nomIngre);
         }
-        ordersArray.push([id_order,orders[i-1][1],orders[i-1][2],orderContent.join(", ")]); 
+        ordersArray.push([id_order,orders[i-1][1],orders[i-1][2],orderContent.join(", "),orders[i-1][4]]); 
     }
     console.log(ordersArray);
 
-    for(const [id_order,id_client,time,ingredients] of ordersArray)
+    for(const [id_order,nom_client,time,ingredients,adresse_client] of ordersArray)
     {
         let partOfList = document.createElement("div");
-        partOfList.innerHTML = `<input type=\"checkbox\" id=\"${id_order}\" name=\"${id_order}\"><label for=\"${id_order}\">n°${id_order} à ${time} pour ${id_client}: ${ingredients}</label>`;
+        partOfList.innerHTML = `<input type=\"checkbox\" id=\"${id_order}\" name=\"${id_order}\"><label=\"${id_order}\">n°${id_order} à ${time} à livrer au ${adresse_client} à  ${nom_client}: ${ingredients}</label>`;
         partsList.appendChild(partOfList);
     }
     partsHolder.appendChild(partsList);

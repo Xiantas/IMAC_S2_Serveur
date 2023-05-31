@@ -2,14 +2,29 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'nav&footer.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'page.css') }}">
     <title>Biggimac</title>
 </head>
 <body>
-    <p><a href="/index.html">Retour</a></p>
+    <nav>
+        <label for="toggle">☰</label>
+        <input type="checkbox" id="toggle">
+        <div class="main_pages">
+            <a href="/index.html">Accueil
+                <!--<img src="IMAGES/Nume.png">-->
+            </a>
+            <a href="/order.html">Commander</a>
+            <a href="/orderSummary.html">Récapitulatif Commande</a>
+            <a href="/orders.html">Historique Commande</a>
+            <a href="/register.html">S'inscrire</a>
+            <a href="/login.html">Connexion</a>
+        </div>
+    </nav>
+    <p><a href="/index.html">Retour à la page précédente</a></p>
     <p><a href="/order.html">Nouvelle commande</a></p>
     <p></p>
-    <p>Ingrédients commandés :</p>
+    <p>Produits commandés :</p>
     <parts>
     </parts>
     <button id="leBouton">Annuler la commande</button>

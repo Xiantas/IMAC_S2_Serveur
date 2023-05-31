@@ -1,0 +1,76 @@
+body{
+    background: #e3e3e3;
+    position: relative;
+    font-family: "Avenir Book", sans-serif;
+}
+
+p a {
+    width: 270px;
+    height: 30px;
+    padding: 10px;
+    background: #9E9E9E;
+    border-radius: 15px;
+    border :none;
+    text-align: center;
+    font-family: "Avenir Book", sans-serif;
+    font-size: 20px;
+    color: white;
+    display: block;
+    margin: 0 auto;
+    margin-top: 30px;
+    z-index: 1;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+p a:hover{
+    background: white;
+    color: grey;
+    border: 1px solid grey;
+}
+
+p a{position:relative;z-index:8;}
+
+#leBouton{
+    width: 170px;
+    height: 50px;
+    background: #9E9E9E;
+    border-radius: 15px;
+    border :none;
+    text-align: center;
+    font-family: "Avenir Book", sans-serif;
+    font-size: 15px;
+    color: white;
+    display: block;
+    margin-top: 5px;
+    z-index: 1;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#bouton_a{
+    width: 170px;
+    height: 20px;
+    padding: 10px;
+    background: #9E9E9E;
+    border-radius: 15px;
+    border :none;
+    text-align: center;
+    font-family: "Avenir Book", sans-serif;
+    font-size: 15px;
+    color: white;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+    z-index: 1;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#texte{
+    text-align: center;
+}
+
+#container{
+    color: black;
+}
