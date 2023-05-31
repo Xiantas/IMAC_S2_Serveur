@@ -36,43 +36,55 @@ class Database:
     def get_ingredients(self):
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
-        res = cursor.execute("SELECT id_ingredient, nom_ingredient FROM stocks;")
+        res = cursor.execute("SELECT id_ingredient, nom_ingredient FROM stocks WHERE quantite>0;")
+        res = res.fetchall()
+        connection.close()
+        return res
+
+    def get_ingredients_et_prix(self):
+        connection = sqlite3.connect(self.__path)
+        cursor = connection.cursor()
+        res = cursor.execute("SELECT id_ingredient, nom_ingredient,prix FROM stocks WHERE quantite>0 ;")
         res = res.fetchall()
         connection.close()
         print("les ingrés :", res)
         return res
 
-    #TODO
+
     def new_order(self, choix_ingredients,id_client):
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
-        #order_array = [id_commande for ingre in choix_ingredients]
-        #b = ", ".join(choix_ingredients)
-        #a = ", ".join(order_array)
         adresse=""
         password=""
         res = cursor.execute(f"SELECT id_client FROM clients WHERE adresse='{adresse}' AND mdp='{password}';")
         res = res.fetchall()
-        cursor.execute(f"INSERT INTO orders (id_client) VALUES ({id_client});")
+
+        liste_id="("
+        for part in choix_ingredients :
+            liste_id+=part
+            liste_id+=","
+        liste_id=liste_id[:-1]
+        liste_id+=")"
+        liste_prix=cursor.execute(f"SELECT prix FROM id_ingredient WHERE id_ingredient IN liste_id ;")
+        prix_total=0
+        for part in liste_prix :
+            prix_total+=part
+
+        cursor.execute(f"INSERT INTO orders (id_client,prix_total) VALUES ({id_client},{prix_total});")
         id_order = cursor.lastrowid
         for part in choix_ingredients :
             cursor.execute(f"INSERT INTO orderparts VALUES ({id_order},{part});")
 
-        #res = cursor.execute(f"INSERT INTO orders ({a}) VALUES ({b});")
         connection.commit()
         connection.close()
 
 
-    #TODO
     def get_orders(self): #utilisé dans /orders 
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
         res = cursor.execute("SELECT orders.id_order, nom_client, created, id_ingredient, adresse FROM orders JOIN orderparts ON orders.id_order=orderparts.id_order JOIN clients ON orders.id_client=clients.id_client ORDER BY orders.id_order;")#ca nous donne id_order id_client TIMESTAMP id_ingredient, liste de tupes à 4 éléments 
         res = res.fetchall() 
-        #def ingres_to_str(tup):
-            #ingres = ", ".join([ingredients[i] for (i, b) in enumerate(tup[2:]) if b])
-            #return (tup[0], tup[1], ingres)
-        #res = list(map(ingres_to_str, res))
+        
         return res 
 
     #TODO

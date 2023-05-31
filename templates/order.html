@@ -37,7 +37,7 @@
     <script type="module">
         "use strict";
 
-        let data = await fetch("/ingres"); // récupère la liste des ingrédients à la route /order sur le serv.py
+        let data = await fetch("/ingresetprix"); // récupère la liste des ingrédients à la route /order sur le serv.py
         let parts = await data.json();
 
         // devrait créer la liste des éléments à checker sur la page /order.html et l'afficher ; ouvert sur le server.py quand on va sur /order.html 
@@ -48,7 +48,7 @@
             partsList.setAttribute("id", "container");
             for (const part of parts.list) {
                 let partOfList = document.createElement("div");
-                partOfList.innerHTML = `<input type=\"checkbox\" id=\"${part[0]}\" name=\"${part[0]}\"><label=\"${part[0]}\">${part[1]}</label>`;
+                partOfList.innerHTML = `<input type=\"checkbox\" id=\"${part[0]}\" name=\"${part[0]}\"><label=\"${part[0]}\">${part[1]} : ${part[2]}€</label>`;
                 partsList.appendChild(partOfList);
             }
             partsHolder.appendChild(partsList);

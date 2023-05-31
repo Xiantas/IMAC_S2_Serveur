@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS orders (
     id_order INTEGER PRIMARY KEY AUTOINCREMENT,
     id_client INTEGER NOT NULL,
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    prix_total FLOAT,
     FOREIGN KEY(id_client) REFERENCES clients (id_client)
 );
 

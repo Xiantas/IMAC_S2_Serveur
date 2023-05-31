@@ -33,6 +33,10 @@ def order():
 def parts_list():
     return jsonify({"list": database.get_ingredients()})# récupéré apr order.thml
 
+@app.route("/ingresetprix")#utilisé dans order
+def parts_list2():
+    return jsonify({"list": database.get_ingredients_et_prix()})# récupéré apr order.thml
+
 @app.route("/orderSummary.html")
 def orderSummary():
     return render_template("orderSummary.html")
