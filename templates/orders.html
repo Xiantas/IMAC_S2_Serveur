@@ -56,9 +56,12 @@ function onLoad() {
         const id_order=orders[i][0];
         const orderContent = [];
         for (; i < orders.length && id_order==orders[i][0]; i++) {
-            const nomIngre = ingres.find(e => {return e[0] == orders[i][3]})[1];
-            orderContent.push(nomIngre);
+            const nomIngre = ingres.find(e => {return e[0] == orders[i][3]});
+            let nomIngre2=nomIngre[1];
+            orderContent.push(nomIngre2);
+            console.log(nomIngre);
         }
+        
         ordersArray.push([id_order,orders[i-1][1],orders[i-1][2],orderContent.join(", "),orders[i-1][4]]); 
     }
     console.log(ordersArray);
@@ -67,7 +70,7 @@ function onLoad() {
     {
         let partOfList = document.createElement("div");
         partOfList.innerHTML = `<input type=\"checkbox\" id=\"${id_order}\" name=\"${id_order}\"><label=\"${id_order}\">n°${id_order} à ${time} à livrer au ${adresse_client} à  ${nom_client}: ${ingredients}</label>`;
-        partsList.appendChild(partOfList);
+        partsList.appendChild(partOfList);        
     }
     partsHolder.appendChild(partsList);
 }
