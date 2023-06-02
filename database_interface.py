@@ -36,7 +36,15 @@ class Database:
     def get_ingredients(self):
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
-        res = cursor.execute("SELECT id_ingredient, nom_ingredient FROM stocks WHERE quantite>0;")
+        res = cursor.execute("SELECT id_ingredient, nom_ingredient, prix FROM stocks")
+        res = res.fetchall()
+        connection.close()
+        return res
+
+    def get_available_ingredients(self):
+        connection = sqlite3.connect(self.__path)
+        cursor = connection.cursor()
+        res = cursor.execute("SELECT id_ingredient, nom_ingredient, prix FROM stocks WHERE quantite>0;")
         res = res.fetchall()
         connection.close()
         return res
@@ -59,13 +67,8 @@ class Database:
         res = cursor.execute(f"SELECT id_client FROM clients WHERE adresse='{adresse}' AND mdp='{password}';")
         res = res.fetchall()
 
-        liste_id="("
-        for part in choix_ingredients :
-            liste_id+=part
-            liste_id+=","
-        liste_id=liste_id[:-1]
-        liste_id+=")"
-        liste_prix=cursor.execute(f"SELECT prix FROM id_ingredient WHERE id_ingredient IN liste_id ;")
+        id_list = ", ".join(map(lambda i : str(i[0]), res));
+        liste_prix=cursor.execute(f"SELECT prix FROM stocks WHERE id_ingredient IN ({id_list});")
         prix_total=0
         for part in liste_prix :
             prix_total+=part

@@ -1,10 +1,10 @@
-<!--
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'nav&footer.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'page.css') }}">
+    <link rel="stylesheet" type="text/css" href="static/nav&footer.css">
+    <link rel="stylesheet" type="text/css" href="static/page.css">
+    <script defer type="module" src="/static/order.js"></script>
     <title>Biggimac</title>
 </head>
 <body>
@@ -28,164 +28,7 @@
     <parts>
     </parts>
         <button id="leBouton">Commander</button>
-    {% if user_is_authenticated %}
-        <button id="leBouton">Commander</button>
-    {% else %}
         <p id="texte">Vous devez être connecté pour passer une commande.</p>
         <a id="bouton_a" href="/login.html">Se connecter</a> <!--|--> <a id="bouton_a" href="/register.html">S'inscrire</a>
-    {% endif %}
-
-    <script type="module">
-        "use strict";
-
-        let data = await fetch("/ingresetprix"); // récupère la liste des ingrédients à la route /order sur le serv.py
-        let parts = await data.json();
-
-        // devrait créer la liste des éléments à checker sur la page /order.html et l'afficher ; ouvert sur le server.py quand on va sur /order.html 
-        function onLoad() {
-            const partsHolder = document.getElementsByTagName("parts")[0];
-
-            const partsList = document.createElement("div");
-            partsList.setAttribute("id", "container");
-            for (const part of parts.list) {
-                let partOfList = document.createElement("div");
-                partOfList.innerHTML = `<input type=\"checkbox\" id=\"${part[0]}\" name=\"${part[0]}\"><label=\"${part[0]}\">${part[1]} : ${part[2]}€</label>`;
-                partsList.appendChild(partOfList);
-            }
-            partsHolder.appendChild(partsList);
-        }
-
-        // lancée quand on appuie sur le bouton , créer la liste d'id d'ingrédients checkée
-        function passerCommande() {
-            let ingredients = [];
-            const boxes = document.getElementById("container").getElementsByTagName("input");
-            for (const box of boxes) {
-                if (box.checked) {
-                    ingredients.push(box.id);
-                }
-            }
-            const send = JSON.stringify(ingredients);
-            window.name = JSON.stringify({
-                infos: parts.list,
-                taken: ingredients
-            });
-            // renvoit sur le server.py avec la méthode post 
-            fetch("/order.html", {
-                method: "POST",
-                headers: {
-                    'Accept': 'application/json',
-                    "Content-Type": "application/json"
-                },
-                body: send // donnée envoyée
-            })
-                .then(_ => window.location.href = "/orderSummary.html");
-        }
-
-        onLoad();
-        const bouton = document.getElementById("leBouton");
-        bouton.addEventListener("click", passerCommande);
-    </script>
-    {% if user_is_authenticated %}
-        const bouton = document.getElementById("leBouton");
-        bouton.addEventListener("click", passerCommande);
-    {% endif %}
-</body>
-</html>
--->
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
-    <title>Biggimac</title>
-</head>
-<body>
-    <p><a href="/index.html">Retour</a></p>
-    <p></p>
-    <p>Ingrédients disponibles :</p>
-    <div id="parts">
-    </div>
-
-    <script type="module">
-        "use strict";
-
-        async function fetchIngredients() {
-            const response = await fetch("/ingres");
-            const parts = await response.json();
-            return parts;
-        }
-
-        function createPartsList(parts) {
-            const partsHolder = document.getElementById("parts");
-
-            const partsList = document.createElement("div");
-            partsList.setAttribute("id", "container");
-            for (const part of parts.list) {
-                let partOfList = document.createElement("div");
-                partOfList.innerHTML = `<input type="checkbox" id="${part[0]}" name="${part[0]}"><label for="${part[0]}">${part[1]}</label>`;
-                partsList.appendChild(partOfList);
-            }
-            partsHolder.appendChild(partsList);
-        }
-
-        function passerCommande() {
-            let ingredients = [];
-            const boxes = document.getElementById("container").getElementsByTagName("input");
-            for (const box of boxes) {
-                if (box.checked) {
-                    ingredients.push(box.id);
-                }
-            }
-            const send = JSON.stringify(ingredients);
-            window.name = JSON.stringify({
-                infos: parts.list,
-                taken: ingredients
-            });
-            fetch("/order.html", {
-                method: "POST",
-                headers: {
-                    'Accept': 'application/json',
-                    "Content-Type": "application/json"
-                },
-                body: send
-            })
-                .then(_ => window.location.href = "/orderSummary.html");
-        }
-
-        function onLoad() {
-            fetchIngredients()
-                .then(parts => {
-                    createPartsList(parts);
-                    
-                    const userAuthenticated = true; // Remplacez par la logique de vérification de l'authentification de l'utilisateur
-                    if (userAuthenticated) {
-                        const bouton = document.createElement("button");
-                        bouton.setAttribute("id", "leBouton");
-                        bouton.textContent = "Commander";
-                        bouton.addEventListener("click", passerCommande);
-                        document.body.appendChild(bouton);
-                    } else {
-                        const notLoggedInMessage = document.createElement("p");
-                        notLoggedInMessage.textContent = "Vous devez être connecté pour passer une commande.";
-                        document.body.appendChild(notLoggedInMessage);
-
-                        const loginLink = document.createElement("a");
-                        loginLink.href = "/login.html";
-                        loginLink.textContent = "Se connecter";
-                        document.body.appendChild(loginLink);
-
-                        const registerLink = document.createElement("a");
-                        registerLink.href = "/register.html";
-                        registerLink.textContent = "S'inscrire";
-                        document.body.appendChild(registerLink);
-                    }
-                })
-                .catch(error => {
-                    console.error("Une erreur s'est produite lors de la récupération des ingrédients :", error);
-                });
-        }
-
-        onLoad();
-    </script>
 </body>
 </html>

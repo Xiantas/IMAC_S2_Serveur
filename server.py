@@ -2,7 +2,7 @@
 
 import database_interface
 
-from flask import Flask,request,render_template,jsonify,abort
+from flask import Flask,request,send_file,render_template,jsonify,abort
 from flask_cors import CORS
 
 import sqlite3
@@ -21,21 +21,25 @@ def index():
 
 @app.route("/order.html", methods=['GET', 'POST'])
 def order():
-    if request.method == "POST": #lancé depuis /order.html 
-        choix_ingredients = request.json #récupère ce que j'ai envoyé avec le fetch
-        database.new_order(choix_ingredients,1)# met à jour oders et orderpart dans la bdd
-        database.update_stocks(choix_ingredients)#met à jour stocks 
+    if request.method == "POST":
+        choix_ingredients = request.json
+        database.new_order(choix_ingredients,1)
+        database.update_stocks(choix_ingredients)
 
         return "{}"
-    return render_template("order.html")
+    return send_file("templates/order.html")
 
 @app.route("/ingres")
-def parts_list():
-    return jsonify({"list": database.get_ingredients()})# récupéré apr order.thml
+def route_ingres():
+    return jsonify(database.get_ingredients())
 
-@app.route("/ingresetprix")#utilisé dans order
+@app.route("/ingres_available")
+def route_ingres_available():
+    return jsonify(database.get_available_ingredients())
+
+@app.route("/ingresetprix")
 def parts_list2():
-    return jsonify({"list": database.get_ingredients_et_prix()})# récupéré apr order.thml
+    return jsonify({"list": database.get_ingredients_et_prix()})
 
 @app.route("/orderSummary.html")
 def orderSummary():
