@@ -32,11 +32,30 @@ CREATE TABLE IF NOT EXISTS orderparts (
 
 INSERT INTO stocks 
 VALUES 
-(NULL,"viande", 10, 12.89),
-(NULL,"pain", 10, 12.89),
-(NULL,"salade", 10, 12.89),
-(NULL,"tomate", 10 ,13.5),
-(NULL,"tamère" , 1 , 0.5);
+(NULL,"Cheesebuger", 10, 6.50),
+(NULL,"Burger Classique", 10, 6.00),
+(NULL,"Bacon Burger", 10, 7.00),
+(NULL,"BiggiMac", 10 ,6.00),
+(NULL,"Burger Végé" , 10 , 6.00),
+(NULL,"Sandwich Jambon-Emmental", 10, 5.00),
+(NULL,"Sandwich Crudités", 10, 5.00),
+(NULL,"Sandwich Rosette Beurre", 10, 5.00),
+(NULL,"Frites", 10 ,3.50),
+(NULL,"Potatoes" , 10 , 3.50),
+(NULL,"Salade", 10, 4.00),
+(NULL,"Chips", 10, 2.00),
+(NULL,"Tiramisu", 10 ,3.00),
+(NULL,"Glace chocolat" , 10 , 2.00),
+(NULL,"Glace vanille", 10, 2.00),
+(NULL,"Glace fraise", 10, 2.00),
+(NULL,"Brownie", 10, 2.00),
+(NULL,"Cookie", 10, 2.00),
+(NULL,"Eau" , 10 , 1.00),
+(NULL,"Thé", 10, 1.00),
+(NULL,"Coca-Cola", 10 ,1.50),
+(NULL,"7up", 10, 1.50),
+(NULL,"Jus d'orange", 10 ,1.50),
+(NULL,"Jus multifruits", 10 ,1.50);
 
 INSERT INTO clients VALUES (NULL, "Joe", "Dalton", "joedalton@shrug.com", "prison")
 /*
