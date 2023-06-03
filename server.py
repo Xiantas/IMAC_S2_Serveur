@@ -24,7 +24,7 @@ def order():
     if request.method == "POST":
         session = request.json
         choix_ingredients = session["order"]
-        compte = #TODO
+        compte = (session["email"], session["pw"])
         database.new_order(choix_ingredients,1)
         database.update_stocks(choix_ingredients)
 
