@@ -28,21 +28,25 @@ async function login() {
     sessionInfo.email = mail;
     sessionInfo.pw = pw;
 
+    const send = JSON.stringify(sessionInfo);
+
     const data = await fetch("/login.html", {
         method: "POST",
         headers: {
             'Accept': 'application/json',
             "Content-Type": "application/json"
         },
-        body: sessionInfo
+        body: send
     });
 
-    console.log(data);
     const response = await data.json();
-    console.log("b");
 
-    console.log(response)
-
+    if (response) {
+        window.name = send;
+        window.location.href = "/index.html";
+    } else {
+        window.location.href = "/login.html";
+    }
 }
 
 const submit = document.getElementById("submit");

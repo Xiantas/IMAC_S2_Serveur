@@ -23,9 +23,9 @@ def index():
 @app.route("/order.html", methods=['GET', 'POST'])
 def order():
     if request.method == "POST":
-        print("a")
         session = request.json
-        print("b")
+        if "email" not in session or "pw" not in session:
+            return "{}"
         choix_ingredients = session["order"]
         compte_mail = session["email"]
         compte_pw = session["pw"]
@@ -65,17 +65,13 @@ def ordersList():
 
 @app.route("/login.html", methods=['GET', 'POST'])
 def login():
-    print("login")
     if request.method == "POST":
-        print("login POST")
-        print(request.json)
-        email = session_info["email"]
-        password = session_info["pw"]
-        print(email, ",", password)
-        if email is None or password is None:
+        session = request.json
+        if not ("email" in session and "pw" in session):
             return jsonify(False)
+        email = session["email"]
+        password = session["pw"]
         res=database.authentify(email,password)
-        print(res)
         if res is not None:
             return jsonify(True)
         return jsonify(False)
@@ -89,7 +85,7 @@ def register():
         password = request.form.get("password")
         address = request.form.get("address")
         database.register(name,email,password,address)
-        return send_file("templates/order.html")
+        return send_file("templates/login.html")
 
     return send_file("templates/register.html")
 

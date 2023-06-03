@@ -102,7 +102,7 @@ class Database:
     def authentify(self,email,password):
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
-        
+
         res = cursor.execute(f"SELECT id_client FROM clients WHERE adresse_mail='{email}' AND mdp='{password}';")
         res = res.fetchall()
         connection.close()

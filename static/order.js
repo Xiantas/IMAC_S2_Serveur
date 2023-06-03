@@ -52,7 +52,7 @@ function passerCommande() {
             'Accept': 'application/json',
             "Content-Type": "application/json"
         },
-        body: sessionInfo
+        body: window.name
     })
         .then(_ => window.location.href = "/orderSummary.html");
 }
