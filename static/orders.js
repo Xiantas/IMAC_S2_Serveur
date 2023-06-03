@@ -1,6 +1,6 @@
 "use strict";
 
-let data = await fetch("/orders");//fetch méthode get , select avec get_order id_order id_client TIMESTAMP id_ingredient pour chaque ingrédient, pour chaque id_client trié par id_order 
+let data = await fetch("/orders");
 const orders = (await data.json()).list;
 
 data = await fetch("/ingres");
@@ -33,7 +33,7 @@ function onLoad() {
     for(const [id_order,nom_client,time,ingredients,adresse_client] of ordersArray)
     {
         let partOfList = document.createElement("div");
-        partOfList.innerHTML = `<input type=\"checkbox\" id=\"${id_order}\" name=\"${id_order}\"><label=\"${id_order}\">n°${id_order} à ${time} à livrer au ${adresse_client} à  ${nom_client}: ${ingredients}</label>`;
+        partOfList.innerHTML = `<label><input type="checkbox" id="${id_order}" name="${id_order}">n°${id_order} à ${time} à livrer au ${adresse_client} à ${nom_client}: ${ingredients}</label>`;
         partsList.appendChild(partOfList);        
     }
     partsHolder.appendChild(partsList);

@@ -18,16 +18,12 @@ class Database:
         connection.commit()
         connection.close()
 
-
-    def __load_data(self, connection, data_folder):
-        pass #TODO parser
-    
     def update_stocks(self,tab_ingredient_commande):
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
         
         for part in tab_ingredient_commande:
-            cursor.execute(f"UPDATE stocks SET quantite=quantite-1 WHERE id_ingredient={part[0]};")
+            cursor.execute(f"UPDATE stocks SET quantite=quantite-1 WHERE id_produit={part[0]} AND quantite>0;")
         connection.commit()
         connection.close()
         return 
@@ -36,7 +32,7 @@ class Database:
     def get_ingredients(self):
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
-        res = cursor.execute("SELECT id_ingredient, nom_ingredient, prix FROM stocks")
+        res = cursor.execute("SELECT id_produit, nom_produit, prix FROM stocks")
         res = res.fetchall()
         connection.close()
         return res
@@ -44,7 +40,7 @@ class Database:
     def get_available_ingredients(self):
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
-        res = cursor.execute("SELECT id_ingredient, nom_ingredient, prix FROM stocks WHERE quantite>0;")
+        res = cursor.execute("SELECT id_produit, nom_produit, prix FROM stocks WHERE quantite>0;")
         res = res.fetchall()
         connection.close()
         return res
@@ -52,7 +48,7 @@ class Database:
     def get_ingredients_et_prix(self):
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
-        res = cursor.execute("SELECT id_ingredient, nom_ingredient,prix FROM stocks WHERE quantite>0 ;")
+        res = cursor.execute("SELECT id_produit, nom_produit,prix FROM stocks WHERE quantite>0 ;")
         res = res.fetchall()
         connection.close()
         print("les ingrés :", res)
@@ -68,29 +64,26 @@ class Database:
         res = res.fetchall()
 
         id_list = ", ".join(map(lambda i : str(i[0]), res));
-        liste_prix=cursor.execute(f"SELECT prix FROM stocks WHERE id_ingredient IN ({id_list});")
-        prix_total=0
-        for part in liste_prix :
-            prix_total+=part
+        liste_prix=cursor.execute(f"SELECT prix FROM stocks WHERE id_produit IN ({id_list});")
+        prix_total=sum(liste_prix)
 
         cursor.execute(f"INSERT INTO orders (id_client,prix_total) VALUES ({id_client},{prix_total});")
         id_order = cursor.lastrowid
         for part in choix_ingredients :
-            cursor.execute(f"INSERT INTO orderparts VALUES ({id_order},{part});")
+            cursor.execute(f"INSERT INTO orderparts SELECT {id_order},id_produit FROM stocks WHERE id_produit={part};")
 
         connection.commit()
         connection.close()
 
 
-    def get_orders(self): #utilisé dans /orders 
+    def get_orders(self):
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
-        res = cursor.execute("SELECT orders.id_order, nom_client, created, id_ingredient, adresse FROM orders JOIN orderparts ON orders.id_order=orderparts.id_order JOIN clients ON orders.id_client=clients.id_client ORDER BY orders.id_order;")#ca nous donne id_order id_client TIMESTAMP id_ingredient, liste de tupes à 4 éléments 
+        res = cursor.execute("SELECT orders.id_order, nom_client, created, id_produit, adresse FROM orders JOIN orderparts ON orders.id_order=orderparts.id_order JOIN clients ON orders.id_client=clients.id_client ORDER BY orders.id_order;")
         res = res.fetchall() 
         
         return res 
 
-    #TODO
     def delete_orders(self, ids):
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
@@ -114,5 +107,6 @@ class Database:
         res = cursor.execute(f"SELECT id_client FROM clients WHERE adresse_mail='{email}' AND mdp='{password}';")
         res = res.fetchall()
         connection.close()
-        return res
-        
+        if len(res):
+            return res[0][0]
+        return None

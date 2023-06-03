@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS stocks (
-    id_ingredient INTEGER PRIMARY KEY AUTOINCREMENT,
-    nom_ingredient TEXT,
+    id_produit INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom_produit TEXT,
     quantite INTEGER NOT NULL,
     prix FLOAT NOT NULL 
 );
@@ -23,10 +23,10 @@ CREATE TABLE IF NOT EXISTS clients (
 
 CREATE TABLE IF NOT EXISTS orderparts (
     id_order INTEGER NOT NULL,
-    id_ingredient INTEGER NOT NULL ,
-    PRIMARY KEY(id_order , id_ingredient),
+    id_produit INTEGER NOT NULL ,
+    PRIMARY KEY(id_order , id_produit),
     FOREIGN KEY(id_order) REFERENCES orders (id_order),
-    FOREIGN KEY(id_ingredient) REFERENCES stocks (id_ingredient)
+    FOREIGN KEY(id_produit) REFERENCES stocks (id_produit)
 
 );
 

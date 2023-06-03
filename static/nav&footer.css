@@ -35,7 +35,7 @@ nav img {
 
 div.main_pages{position:relative;z-index:10;}
 
-label, #toggle{
+.menu, #toggle{
     display: none;
 }
 

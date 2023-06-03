@@ -22,7 +22,9 @@ def index():
 @app.route("/order.html", methods=['GET', 'POST'])
 def order():
     if request.method == "POST":
-        choix_ingredients = request.json
+        session = request.json
+        choix_ingredients = session["order"]
+        compte = #TODO
         database.new_order(choix_ingredients,1)
         database.update_stocks(choix_ingredients)
 
@@ -37,17 +39,13 @@ def route_ingres():
 def route_ingres_available():
     return jsonify(database.get_available_ingredients())
 
-@app.route("/ingresetprix")
-def parts_list2():
-    return jsonify({"list": database.get_ingredients_et_prix()})
-
 @app.route("/orderSummary.html")
 def orderSummary():
-    return render_template("orderSummary.html")
+    return send_file("templates/orderSummary.html")
 
 @app.route("/orders.html")
 def orders():
-    return render_template("orders.html")
+    return send_file("templates/orders.html")
 
 @app.route("/orders", methods = ["GET", "POST"])
 def ordersList():
@@ -66,9 +64,9 @@ def login():
         password = request.form.get("password")
         res=database.login(email,password)
         if len(res)==0:
-            return render_template("login.html")
-        return render_template("order.html")
-    return render_template("login.html")
+            return send_file("templates/login.html")
+        return send_file("templates/order.html")
+    return send_file("templates/login.html")
 
 @app.route("/register.html", methods=['GET', 'POST'])
 def register():
@@ -78,9 +76,9 @@ def register():
         password = request.form.get("password")
         address = request.form.get("address")
         database.register(name,email,password,address)
-        return render_template("order.html")
+        return send_file("templates/order.html")
 
-    return render_template("register.html")
+    return send_file("templates/register.html")
 
 
 
