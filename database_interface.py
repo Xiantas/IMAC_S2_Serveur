@@ -14,7 +14,6 @@ class Database:
         with open(schema_path) as f:
             connection.executescript(f.read())
 
-        self.__load_data(connection, data_folder)
         connection.commit()
         connection.close()
 
@@ -100,13 +99,13 @@ class Database:
         connection.commit()
         connection.close()
 
-    def login(self,email,password):
+    def authentify(self,email,password):
         connection = sqlite3.connect(self.__path)
         cursor = connection.cursor()
         
         res = cursor.execute(f"SELECT id_client FROM clients WHERE adresse_mail='{email}' AND mdp='{password}';")
         res = res.fetchall()
         connection.close()
-        if len(res):
+        if len(res)>0:
             return res[0][0]
         return None

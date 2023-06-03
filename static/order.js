@@ -4,8 +4,8 @@ let sessionInfo;
 
 try {
     sessionInfo = JSON.parse(window.name);
-    if (session_info.hasOwnProperty("BIGGIMAC")) {
-        session_info = {
+    if (!sessionInfo.hasOwnProperty("BIGGIMAC")) {
+        sessionInfo = {
             BIGGIMAC: true,
             email: undefined,
             pw: undefined,

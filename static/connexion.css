@@ -10,7 +10,7 @@ body{
     margin: 5% auto;
 }
 
-form {
+.form {
     width:auto;
     padding: 30px;
     border-radius:15px;

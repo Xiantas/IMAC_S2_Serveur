@@ -1,16 +1,42 @@
 "use strict";
 
+let sessionInfo;
+
+try {
+    sessionInfo = JSON.parse(window.name);
+    console.log("ok");
+    if (!sessionInfo.hasOwnProperty("BIGGIMAC")) {
+        console.log("unreadable");
+        sessionInfo = {
+            BIGGIMAC: true,
+            email: undefined,
+            pw: undefined,
+            order: []};
+    }
+
+} catch (error) {
+    console.log("not ok");
+    sessionInfo = {
+        BIGGIMAC: true,
+        email: undefined,
+        pw: undefined,
+        order: []};
+}
+
+const data = await fetch("/ingres");
+const ingres = await data.json();
+
 function onLoad() {
     const partsHolder = document.getElementsByTagName("parts")[0];
-    console.log(window.name)
-    const commande = JSON.parse(window.name);
-    console.log(commande);
 
 
     const partsList = document.createElement("ul");
-    for (const ingre of commande.taken) {
+    console.log(sessionInfo.order);
+    for (const ingre of sessionInfo.order) {
         let partOfList = document.createElement("li");
-        partOfList.innerHTML = commande.infos.find(e => {return e[0] == ingre;})[1];
+        let truc = ingres.find(e => {return e[0] == ingre;})[1];
+        console.log(truc);
+        partOfList.innerHTML = truc;
         partsList.appendChild(partOfList);
     }
     partsHolder.appendChild(partsList);

@@ -52,7 +52,7 @@ function supprimmerCommandes() {
     window.name = send;
 
     fetch("/orders", {
-        method: "POST",
+        method: "DELETE",
         headers: {
             'Accept': 'application/json',
             "Content-Type": "application/json"

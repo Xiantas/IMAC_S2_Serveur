@@ -17,16 +17,22 @@ CORS(app)
 
 @app.route("/index.html")
 def index():
+    print(jsonify(True))
     return render_template("index.html")
 
 @app.route("/order.html", methods=['GET', 'POST'])
 def order():
     if request.method == "POST":
+        print("a")
         session = request.json
+        print("b")
         choix_ingredients = session["order"]
-        compte = (session["email"], session["pw"])
-        database.new_order(choix_ingredients,1)
-        database.update_stocks(choix_ingredients)
+        compte_mail = session["email"]
+        compte_pw = session["pw"]
+        client_id = database.authentify(compte_mail, compte_pw)
+        if client_id is not None:
+            database.new_order(choix_ingredients, client_id)
+            database.update_stocks(choix_ingredients)
 
         return "{}"
     return send_file("templates/order.html")
@@ -47,7 +53,7 @@ def orderSummary():
 def orders():
     return send_file("templates/orders.html")
 
-@app.route("/orders", methods = ["GET", "POST"])
+@app.route("/orders", methods = ["GET", "DELETE"])
 def ordersList():
     if request.method == "GET": #récupéré par orders.html
         order_list = database.get_orders()#c'est une liste de tuples avec id_order id_client TIMESTAMP id_ingredient
@@ -59,13 +65,20 @@ def ordersList():
 
 @app.route("/login.html", methods=['GET', 'POST'])
 def login():
+    print("login")
     if request.method == "POST":
-        email = request.form.get("adresse_mail")
-        password = request.form.get("password")
-        res=database.login(email,password)
-        if len(res)==0:
-            return send_file("templates/login.html")
-        return send_file("templates/order.html")
+        print("login POST")
+        print(request.json)
+        email = session_info["email"]
+        password = session_info["pw"]
+        print(email, ",", password)
+        if email is None or password is None:
+            return jsonify(False)
+        res=database.authentify(email,password)
+        print(res)
+        if res is not None:
+            return jsonify(True)
+        return jsonify(False)
     return send_file("templates/login.html")
 
 @app.route("/register.html", methods=['GET', 'POST'])

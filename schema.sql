@@ -57,7 +57,7 @@ VALUES
 (NULL,"Jus d'orange", 10 ,1.50),
 (NULL,"Jus multifruits", 10 ,1.50);
 
-INSERT INTO clients VALUES (NULL, "Joe", "Dalton", "joedalton@shrug.com", "prison")
+INSERT INTO clients VALUES (NULL, "Joe", "joedalton@shrug.com", "Dalton", "prison")
 /*
 INSERT INTO orders (0,0)
 */
